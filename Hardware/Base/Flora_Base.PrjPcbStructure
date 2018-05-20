@@ -1,0 +1,3 @@
+Record=TopLevelDocument|FileName=TOP.SchDoc
+Record=SheetSymbol|SourceDocument=TOP.SchDoc|Designator=IV9Driv|SchDesignator=IV9Driv|FileName=IV9Driver.SchDoc|SymbolType=Normal|RawFileName=IV9Driver.SchDoc|DesignItemId= |SourceLibraryName= |ObjectKind=Sheet Symbol|RevisionGUID= |ItemGUID= |VaultGUID= 
+Record=SheetSymbol|SourceDocument=TOP.SchDoc|Designator=RTCModule|SchDesignator=RTCModule|FileName=DS3231.SchDoc|SymbolType=Normal|RawFileName=DS3231.SchDoc|DesignItemId= |SourceLibraryName= |ObjectKind=Sheet Symbol|RevisionGUID= |ItemGUID= |VaultGUID= 

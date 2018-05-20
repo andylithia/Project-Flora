@@ -1,0 +1,8 @@
+# Useless files
+ign_*
+# ADVPCB Temp Files
+*.*Preview
+*).*.Zip
+*.LOG
+Thumbs.db
+Design Rule Check - *
