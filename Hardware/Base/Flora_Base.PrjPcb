@@ -89,23 +89,6 @@ GenerateClassCluster=0
 DocumentUniqueId=SGQDHBIM
 
 [Document4]
-DocumentPath=PCB_Playground.PcbDoc
-AnnotationEnabled=1
-AnnotateStartValue=1
-AnnotationIndexControlEnabled=0
-AnnotateSuffix=
-AnnotateScope=All
-AnnotateOrder=-1
-DoLibraryUpdate=1
-DoDatabaseUpdate=1
-ClassGenCCAutoEnabled=1
-ClassGenCCAutoRoomEnabled=1
-ClassGenNCAutoScope=None
-DItemRevisionGUID=
-GenerateClassCluster=0
-DocumentUniqueId=OXMQOWBK
-
-[Document5]
 DocumentPath=PCB_Drawing_Imported.PcbDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -121,6 +104,27 @@ ClassGenNCAutoScope=None
 DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=YIDQRKXA
+
+[Document5]
+DocumentPath=PCB_Playground_r.PcbDoc
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
+GenerateClassCluster=0
+DocumentUniqueId=OXMQOWBK
+
+[GeneratedDocument1]
+DocumentPath=Project Outputs for Flora_Base\Design Rule Check - PCB_Playground.html
+DItemRevisionGUID=
 
 [Configuration1]
 Name=Sources
