@@ -47,6 +47,10 @@
 
 /* Private define ------------------------------------------------------------*/
 
+#define PWM_G3_Pin GPIO_PIN_2
+#define PWM_G3_GPIO_Port GPIOA
+#define PWM_G4_Pin GPIO_PIN_3
+#define PWM_G4_GPIO_Port GPIOA
 #define PNRST_Pin GPIO_PIN_4
 #define PNRST_GPIO_Port GPIOA
 #define IV9LATCH_Pin GPIO_PIN_6
@@ -59,10 +63,10 @@
 #define PWM_G_GPIO_Port GPIOA
 #define PWM_B_Pin GPIO_PIN_10
 #define PWM_B_GPIO_Port GPIOA
-#define PWM_LS_Pin GPIO_PIN_15
-#define PWM_LS_GPIO_Port GPIOA
-#define PWM_RS_Pin GPIO_PIN_3
-#define PWM_RS_GPIO_Port GPIOB
+#define PWM_G1_Pin GPIO_PIN_15
+#define PWM_G1_GPIO_Port GPIOA
+#define PWM_G2_Pin GPIO_PIN_3
+#define PWM_G2_GPIO_Port GPIOB
 #define QUAD_KEY_Pin GPIO_PIN_4
 #define QUAD_KEY_GPIO_Port GPIOB
 #define QUAD_A_Pin GPIO_PIN_6

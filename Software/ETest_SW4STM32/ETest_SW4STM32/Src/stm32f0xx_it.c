@@ -34,18 +34,28 @@
 #include "stm32f0xx_hal.h"
 #include "stm32f0xx.h"
 #include "stm32f0xx_it.h"
-#include "BCG.h"
+
 /* USER CODE BEGIN 0 */
-extern uint8_t obuffer[4];
-uint8_t quad_in[2];
-uint8_t quad_flag[2];
-uint8_t quad_fw;
-uint8_t quad_rv;
+#include "BCG.h"
+#include "gvar.h"
+#include "flora_BSP.h"
+#include "../Menuitems/menu_l0_intro.h"
+#include "BCDUtil.h"
+#include "string.h"
+
+// 0.A, 1.B, 2.Key
+uint8_t quad_in[3];
+uint8_t quad_flag[3];
+uint8_t quad_fw_rvn;
+uint8_t quad_rotate;
+uint8_t quad_kdn;
+union { uint32_t HL; struct{uint16_t H; uint16_t L;}; } quad_kdn_length;
 uint8_t cnt;
+
+extern I2C_HandleTypeDef hi2c1;
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-extern DMA_HandleTypeDef hdma_spi1_tx;
 extern TIM_HandleTypeDef htim2;
 extern TIM_HandleTypeDef htim16;
 extern TIM_HandleTypeDef htim17;
@@ -73,7 +83,10 @@ void NMI_Handler(void)
 void HardFault_Handler(void)
 {
   /* USER CODE BEGIN HardFault_IRQn 0 */
-
+	NVIC_DisableIRQ(TIM16_IRQn);
+	memcpy(g_textBuffer, "!HFT", 4);
+	IV9_send(g_textBuffer,4,B8(00001111));
+	IV9_FastPWMSet(&htim2, B8(11111111), 239);
   /* USER CODE END HardFault_IRQn 0 */
   while (1)
   {
@@ -132,20 +145,6 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
-* @brief This function handles DMA1 channel 2 and 3 interrupts.
-*/
-void DMA1_Channel2_3_IRQHandler(void)
-{
-  /* USER CODE BEGIN DMA1_Channel2_3_IRQn 0 */
-
-  /* USER CODE END DMA1_Channel2_3_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_spi1_tx);
-  /* USER CODE BEGIN DMA1_Channel2_3_IRQn 1 */
-
-  /* USER CODE END DMA1_Channel2_3_IRQn 1 */
-}
-
-/**
 * @brief This function handles TIM2 global interrupt.
 */
 void TIM2_IRQHandler(void)
@@ -189,9 +188,12 @@ void TIM17_IRQHandler(void)
 
 /* USER CODE BEGIN 1 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim){
+
+	/* 500Hz Interrupt */
 	if(htim==&htim16){
 		quad_in[0] = !HAL_GPIO_ReadPin(QUAD_A_GPIO_Port,QUAD_A_Pin);
 		quad_in[1] = !HAL_GPIO_ReadPin(QUAD_B_GPIO_Port,QUAD_B_Pin);
+		quad_in[2] = !HAL_GPIO_ReadPin(QUAD_KEY_GPIO_Port,QUAD_KEY_Pin);
 
 		if(quad_in[0]){
 			if(quad_in[1]){
@@ -200,8 +202,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim){
 			}
 		} else if (!quad_flag[0]) {
 			quad_flag[0] = 1;
-			if(quad_flag[1])
-				quad_fw = 1;
+			if(quad_flag[1]){
+				quad_fw_rvn = 0;
+				quad_rotate = 1;
+			}
 		}
 
 		if(quad_in[1]){
@@ -211,25 +215,51 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim){
 			}
 		} else if (!quad_flag[1]) {
 			quad_flag[1] = 1;
-			if(quad_flag[0])
-				quad_rv = 1;
+			if(quad_flag[0]){
+				quad_fw_rvn = 1;
+				quad_rotate = 1;
+			}
 		}
 
-		if(quad_fw){
-			quad_fw = 0;
-			// FORWARD
-			// obuffer[0] = 'F';
-			// obuffer[1]++;
+		if(quad_in[2]){
+			if(!quad_flag[2]){
+				quad_flag[2] = 1;
+				if(quad_kdn_length.H<KDN_CANCEL_PERIOD)
+					quad_kdn = 1;
+				else
+					quad_kdn_length.HL=0;
+			}
+		} else {
+			quad_flag[2]= 0;
+			quad_kdn_length.HL++;
 		}
 
-		if(quad_rv){
-			quad_rv = 0;
-			// BACK
-			// obuffer[0] = 'R';
-			// obuffer[1]--;
+		if(quad_rotate||quad_kdn){
+			quad_fw_rvn |= (quad_kdn << QINF_BIT_KDN);
+			quad_fw_rvn |= (quad_rotate << QINF_BIT_ROT);
+			if(quad_kdn_length.H>=KDN_LONG_PRESS_PERIOD)
+				quad_fw_rvn |= BIT(QINF_BIT_LONG_PRESS);
+
+			quad_rotate = 0;
+			quad_kdn = 0;
+			quad_kdn_length.HL = 0;
+
+			MFA_CALL(g_currentMenu,EVENT_QUAD,&quad_fw_rvn);
 		}
 
-	}
-}
+		MFA_CALL(g_currentMenu, EVENT_SSEC, 0);
+
+		if(g_sysCfg&CONF_TIME_FETCH)
+			DS3231_GetTime(&hi2c1, &g_time_reg, 0xFF);
+
+		if(!(g_sysCfg&CONF_DISP_INHIBIT)||(g_sysIssue&ISSUE_DISP)){
+			if(g_sysIssue&ISSUE_DISP)
+				g_sysIssue &= ~ISSUE_DISP;
+			IV9_send(g_textBuffer,4,g_dpBuffer);
+		}
+
+
+	} /* htim==&htim16 */
+} /* HAL_TIM_PeriodElapsedCallback */
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

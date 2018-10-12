@@ -47,6 +47,8 @@
 #define DS3231_HOUR_TYPE_12		1
 #define DS3231_HOUR_TYPE_24		0
 
+#define DS3231_YEAR_MAX			99
+
 typedef enum { NA=0, \
 		SEC = 1, MIN = 2, HOUR = 4, DAY = 8,\
 		DATE = 16, C_MON = 32, MONTH = 64, YEAR = 128\
@@ -99,7 +101,7 @@ typedef struct {
 	uint16_t TEMP;				// TEMP LEFT ALIGNED SIGNED 10bit
 } DS3231_control_t;
 
-
+#define LYEAR_CHECK(YEAR) (((YEAR)%4==0&&(YEAR)%100!= 0)||(YEAR)%400==0)
 
 
 #endif /* _DS3231_H */

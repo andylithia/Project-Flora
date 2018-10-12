@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Project>
-<ProjectName>C:\Users\andylithia\Documents\STMicro\Project-Flora\ETest_SW4STM32\ETest_SW4STM32\\ETest_SW4STM32</ProjectName>
+<ProjectName>C:\Users\andylithia\Documents\GitHub\Project-Flora\Software\ETest_SW4STM32\ETest_SW4STM32\\ETest_SW4STM32</ProjectName>
 <CMSIS>..\Drivers\CMSIS</CMSIS>
 <HAL_Driver>C:\Users\andylithia\STM32Cube\Repository\STM32Cube_FW_F0_V1.9.0\Drivers\CMSIS</HAL_Driver>
 

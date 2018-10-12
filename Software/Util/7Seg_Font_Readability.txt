@@ -1,0 +1,91 @@
+ --A--
+|     |
+F     B
+|     |
+ --G--
+|     |
+E     C
+|     |
+ --D--
+      /H
+	  
+IV9 Driver:
+D0 - A
+D1 - DP(H)
+D2 - B
+D3 - C
+D4 - G
+D5 - D
+D6 - E
+D7 - F
+
+Font:
+## DATA ##
+  
+! BH
+" BF
+# BCDEFG
+$ ACDF
+% BEFGH
+& ABDEFG
+' B
+( AEF
+) BCD
+* ABFG
++ BCG
+, CD
+- G
+. H
+/ BEG
+0 ABCDEF
+1 BC
+2 ABDEG
+3 ABCDG
+4 BCFG
+5 ACDFG
+6 ACDEFG
+7 ABC
+8 ABCDEFG
+9 ABCDFG
+: AD
+; ADG
+< FG
+= DG
+> ABDE
+? ABH
+@ ABDEFG
+A ABCEFG
+B CDEFG
+C DEG
+D BCDEG
+E ADEFG
+F AEFG
+G ACDEF
+H CEFG
+I C
+J BCDE
+K ACEFG
+L DEF
+M ACEF
+N CEG
+O CDEG
+P ABEFG
+Q ABCFG
+R EG
+S ACDG
+T DEFG
+U BCDEF
+V CDE
+W BDEF
+X BCEFG
+Y BCDFG
+Z ADEG
+[ ADEF
+\ FGC
+] ABCD
+^ ABF
+_ D
+
+Hex:
+## OUTPUT ##
+
